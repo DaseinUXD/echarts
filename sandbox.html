@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="">
+	<head>
+		<!-- Required meta tags always come first -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Title Page</title>
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+	</head>
+	<body>
+		
+		<!-- preparing a DOM with width and height for ECharts -->
+		<div id="main" style="width: 600px; height:400px;"></div>
+
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+
+
+
+		<!-- echarts JavaScript -->
+		<script src="dist/echarts.js"></script>
+		<script>
+			// based on prepared DOM, initialize echarts instance
+			var myChart = echarts.init(document.getElementById('main'));
+
+
+			var colors = ['#5793f3', '#d14a61', '#675bba'];
+
+			option = {
+			    color: colors,
+			    tooltip: {
+			        trigger: 'axis',
+			        axisPointer: {
+			            type: 'cross'
+			        }
+			    },
+			    grid: {
+			        right: '20%'
+			    },
+			    toolbox: {
+			        feature: {
+			            dataView: {
+			                show: true,
+			                readOnly: false
+			            },
+			            restore: {
+			                show: true
+			            },
+			            saveAsImage: {
+			                show: true
+			            }
+			        }
+			    },
+			    legend: {
+			        data: ['One', 'Two']
+			    },
+			    xAxis: [{
+			        type: 'category',
+			        axisTick: {
+			            alignWithLabel: true
+			        },
+			        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+			    }],
+			    yAxis: [{
+			        type: 'value',
+			        name: 'One',
+			        min: 0,
+			        max: 250,
+			        position: 'left',
+			        axisLine: {
+			            lineStyle: {
+			                color: colors[0]
+			            }
+			        },
+			        axisLabel: {
+			            formatter: '{value} ml'
+			        }
+			    }, {
+			        type: 'value',
+			        name: 'Two',
+			        min: 0,
+			        max: 250,
+			        position: 'right',
+			        
+			        axisLine: {
+			            lineStyle: {
+			                color: colors[1]
+			            }
+			        },
+			        axisLabel: {
+			            formatter: '{value} ml'
+			        }
+			    }],
+			    series: [{
+			        name: 'One',
+			        type: 'bar',
+			        data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+			    }, {
+			        name: 'Two',
+			        type: 'bar',
+			        yAxisIndex: 1,
+			        data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+			    }]
+			};
+
+			myChart.setOption(option);
+			myChart.on('legendselectchanged', function(params) {
+			    // printing data name in console
+			    var legendObject = params.selected;
+
+			    console.log(Object.values(legendObject));
+
+			    var value1 = (Object.values(legendObject)[0]);
+
+			    var value2 = (Object.values(legendObject)[1]);
+
+			    var option2 = {
+			            yAxis: [{
+			            	//show: value1,
+			                axisLabel: {
+			                    show: value1
+			                }
+			            }, {
+			            	//show: value2,
+			                axisLabel: {
+			                    show: value2
+			                }
+
+			            }]
+			        };
+			        myChart.setOption(option2);
+		   
+			    console.log(legendObject)
+			    console.log(params.name)
+			})
+
+		</script>
+	</body>
+</html>
